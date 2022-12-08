@@ -1,6 +1,6 @@
 node {
 
-    def address = "github.com/mo40070369/TestPOC.git"
+    def address = "github.com/mo40070369/SamplePOC.git"
       
     stage("Checkout code: configuration"){
         git credentialsId: 'Massil@123', url: "https://${address}", branch: "main"
