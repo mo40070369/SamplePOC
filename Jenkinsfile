@@ -79,11 +79,11 @@ try {
 try{
            git credentialsId: 'devops_svc', url: "http://${Base_EI_Project}", branch: "${env.BRANCH_NAME}"
 }catch(err){
-     stage('Perpare Base EI') { 
-        echo "Trying to create a Base EI Branch With dev"
-        build job: 'integration/Integration Foundation/EI_MTP_Automation/MTP-Tools/Copy-Base-EI-Branch',parameters: [string(name: 'Base_EI_Project', value: Base_EI_Project),string(name: 'Source_Branch', value: 'dev'),string(name: 'Target_Branch', value: env.BRANCH_NAME) ], wait: true
-    }
-         git credentialsId: 'devops_svc', url: "http://${Base_EI_Project}", branch: "${env.BRANCH_NAME}"
+    //  stage('Perpare Base EI') { 
+    //     echo "Trying to create a Base EI Branch With dev"
+    //     build job: 'integration/Integration Foundation/EI_MTP_Automation/MTP-Tools/Copy-Base-EI-Branch',parameters: [string(name: 'Base_EI_Project', value: Base_EI_Project),string(name: 'Source_Branch', value: 'dev'),string(name: 'Target_Branch', value: env.BRANCH_NAME) ], wait: true
+    // }
+        //  git credentialsId: 'devops_svc', url: "http://${Base_EI_Project}", branch: "${env.BRANCH_NAME}"
 }
             def props1 = readYaml file: "jenkinsfile.pipeline.yml"
             splunkurl = props1.splunkurl
