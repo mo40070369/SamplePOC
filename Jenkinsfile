@@ -140,7 +140,9 @@ try{
         stage("Cope car"){
             echo "print base mi proj"
             echo "${ei_service_project_tem_path}"
-            bat "copy ${ei_service_project_tem_path}/*_capp/target/*.car D:/softwares/WSO2/wso2ei-7.1.0/micro-integrator/repository/deployment/server/carbonapps"
+         deploy_result =  bat "copy ${ei_service_project_tem_path}/Sample/SampleCompositeExporter/target/*.car D:/softwares/WSO2/wso2ei-7.1.0/micro-integrator/repository/deployment/server/carbonapps"
+        is_car_deploy_error = deploy_result.contains("[ERROR]")
+
         }
         // stage("Deploy car in server"){
         //     echo "deploy car in server"
@@ -159,36 +161,36 @@ try{
             ) 
 		}
         
-        stage("Record Commit ID"){
-              def template_path= "${base_ei_project_tem_path}/repository/deployment/server/synapse-configs/default/templates/"
+        // stage("Record Commit ID"){
+        //       def template_path= "${base_ei_project_tem_path}/repository/deployment/server/synapse-configs/default/templates/"
 
-              if(fileExists("${template_path}EI_Service_CommitID_Recorder.xml")){
-                  commit_id_exist = true;
-                  def commit_id_list_string = bat (returnStdout: true, script: "type ${template_path}EI_Service_CommitID_Recorder.xml|FIND -oE 'commit_id_start.*commit_id_end'")
-                  def new_commit_id_list_string = "";
-                  def commit_id_list = commit_id_list_string.split(',');
-                  commit_id_list.eachWithIndex { item, i ->
-                     if(i==0){
-                        new_commit_id_list_string = item.trim()+","+commit_id.trim();
-                     }else
-                     if(i<20){
-                          new_commit_id_list_string+=","+item.trim();
-                     }
-                  }
-                  new_commit_id_list_string+=",commit_id_end";
+        //       if(fileExists("${template_path}EI_Service_CommitID_Recorder.xml")){
+        //           commit_id_exist = true;
+        //           def commit_id_list_string = bat (returnStdout: true, script: "type ${template_path}EI_Service_CommitID_Recorder.xml|FIND -oE 'commit_id_start.*commit_id_end'")
+        //           def new_commit_id_list_string = "";
+        //           def commit_id_list = commit_id_list_string.split(',');
+        //           commit_id_list.eachWithIndex { item, i ->
+        //              if(i==0){
+        //                 new_commit_id_list_string = item.trim()+","+commit_id.trim();
+        //              }else
+        //              if(i<20){
+        //                   new_commit_id_list_string+=","+item.trim();
+        //              }
+        //           }
+        //           new_commit_id_list_string+=",commit_id_end";
 
                 
-                  echo "commit_id_list_string=${commit_id_list_string}"
-                  echo "new_commit_id_list_string=${new_commit_id_list_string}"
-                  def sed_command = "sed -i 's|${commit_id_list_string.trim()}|${new_commit_id_list_string.trim()}|g' ${template_path}EI_Service_CommitID_Recorder.xml"
-                  echo "sed_command=${sed_command}"
-                  bat "${sed_command}"
-              }
-        }        
+        //           echo "commit_id_list_string=${commit_id_list_string}"
+        //           echo "new_commit_id_list_string=${new_commit_id_list_string}"
+        //           def sed_command = "sed -i 's|${commit_id_list_string.trim()}|${new_commit_id_list_string.trim()}|g' ${template_path}EI_Service_CommitID_Recorder.xml"
+        //           echo "sed_command=${sed_command}"
+        //           bat "${sed_command}"
+        //       }
+        // }        
        		}         
     // }
     
-   if(!is_car_build_error){
+   if(!is_car_build_error && !is_car_deploy_error){
     // stage("commit & push code to Base_EI_Project"){
     //     dir(base_ei_project_tem_path){
     //          withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'devops_svc',usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]){
@@ -203,46 +205,47 @@ try{
     // }
 
 
-	echo "earth_service_check_url = ${earth_service_check_url} ,commit_id_exist = ${commit_id_exist}"
-    if(commit_id_exist && earth_service_check_url ){
-	    stage("Wait for Earth Deployment"){
-        project_name = gitProjectName.split('/')[1];
-        try {
-            timeout(time: 180, unit: 'SECONDS') {
-                sleep 20
-				waitUntil {
-				     earth_service_check_url = earth_service_check_url.replaceAll("service_commit_id",commit_id.trim())
-                     echo "earth_service_check_url=${earth_service_check_url}"
-                     def key_words = 'Commit ID Exist'
-                     def earth_ei_service_response = bat(returnStdout: true, script: "${earth_service_check_url} || echo success")
-                     echo "earth_ei_service_response=${earth_ei_service_response}"
-					 if(earth_ei_service_response.contains(key_words)){
-					  return true;
-					 }
-					 return false;
-				}
-                emailext (
-                subject: "${build_email_title_suffix} EI Car Deploy Successfully", 
-                mimetype: 'text/html', 
-                to: notify_users,
-                body: "You can access your service now. ${ei_service_related_info_html}"
-             ) 
-			}
-            }catch (err) {
-        currentBuild.result = 'FAILURE'
-        currentBuild.setDescription("Wait for Earth Deployment Failed :RANCH_NAME: ${env.BRANCH_NAME} , Base_EI_Project: ${Base_EI_Project}")
+	// echo "earth_service_check_url = ${earth_service_check_url} ,commit_id_exist = ${commit_id_exist}"
+    // if(is_car_deploy_error){
+	//     stage("Wait for Earth Deployment"){
+    //     project_name = gitProjectName.split('/')[1];
+    //     try {
+    //         timeout(time: 180, unit: 'SECONDS') {
+    //             sleep 20
+	// 			waitUntil {
+	// 			     earth_service_check_url = earth_service_check_url.replaceAll("service_commit_id",commit_id.trim())
+    //                  echo "earth_service_check_url=${earth_service_check_url}"
+    //                  def key_words = 'Commit ID Exist'
+    //                  def earth_ei_service_response = bat(returnStdout: true, script: "${earth_service_check_url} || echo success")
+    //                  echo "earth_ei_service_response=${earth_ei_service_response}"
+	// 				 if(earth_ei_service_response.contains(key_words)){
+	// 				  return true;
+	// 				 }
+	// 				 return false;
+	// 			}
+    //             emailext (
+    //             subject: "${build_email_title_suffix} EI Car Deploy Successfully", 
+    //             mimetype: 'text/html', 
+    //             to: notify_users,
+    //             body: "You can access your service now. ${ei_service_related_info_html}"
+    //          ) 
+	// 		}
+    //         }catch (err) {
+    //     currentBuild.result = 'FAILURE'
+    //     currentBuild.setDescription("Wait for Earth Deployment Failed :RANCH_NAME: ${env.BRANCH_NAME} , Base_EI_Project: ${Base_EI_Project}")
 
-            emailext (
-            subject: "${build_email_title_suffix} EI Car Deploy Failedd", 
-            mimetype: 'text/html', 
-            to: notify_users,
-            body: "${build_email_title_suffix} deploy failed , is car <a href='${splunkurl} Ignoring Carbon Application'> deployment error </a>?   \n\nError: ${err} \n\n ${ei_service_related_info_html}  \n\n if can not find the RC , please contact with Integration BASIS .\n\nEmail: -Integration_BASIS@lenovo.com \n\n Detail: ${env.BUILD_URL}console ",
-             ) 
+    //         emailext (
+    //         subject: "${build_email_title_suffix} EI Car Deploy Failedd", 
+    //         mimetype: 'text/html', 
+    //         to: notify_users,
+    //         body: "${build_email_title_suffix} deploy failed , is car <a href='${splunkurl} Ignoring Carbon Application'> deployment error </a>?   \n\nError: ${err} \n\n ${ei_service_related_info_html}  \n\n if can not find the RC , please contact with Integration BASIS .\n\nEmail: -Integration_BASIS@lenovo.com \n\n Detail: ${env.BUILD_URL}console ",
+    //          ) 
         
-    }
+    // }
          
-            }
- }else{
+    //         }
+//  }
+//  else{
 
     echo "notify_users = ${notify_users}"
     echo "${build_email_title_suffix} EI Car Deploy to Base EI Project Successfully "
@@ -257,12 +260,13 @@ try{
        emailext (
                 subject: "${build_email_title_suffix} EI Car Deploy to Base EI Project Successfully ", 
                 mimetype: 'text/html', 
-                to: 'javidm@motorola.com',
+                to: 'javedmd086@gmail.com',
                 body: "${build_email_title_suffix} EI Car Deploy to Base EI Project Successfully \n\n All Environment Base EI Project Logs: <a href='${parseSplunkUrl(Base_EI_Project)}'>splunk</a> \n\nCheck If zzzzzzz_MI_Health_Check Car Deployed : <a href='${parseSplunkUrl(Base_EI_Project)} zzzzzzz_MI_Health_Check '>splunk</a> \n\nBase EI Project: http://${Base_EI_Project} \n \n\nYour Commit Info: \n<text>${newCommitComments}</text>\n\nBuild Detail: ${env.BUILD_URL}console \n \n In this Base EI Project version , We can not check whether the EI Service was deployed to Earth , and whether  there is other EI Service deployed failed make your EI Service unable to be deployed.\n\nif you need response your EI Service deployment status when you deploy ,  you can contact with Integration Basis to upgrade the Base EI Project to release/v1.1 .  \n Integration Basis: -Integration_BASIS@lenovo.com "
                 // body: 'CAR has deployed successfully'
              ) 
     
- } }
+//  }
+  }
     }
   } catch (err) {
         currentBuild.result = 'FAILURE'
