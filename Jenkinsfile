@@ -110,7 +110,7 @@ try{
                 // bat 'ls -ltr'
                 props.environments.main.each {
                 updateProperty("{${it.key}}", "${it.value}" ,'*/src/main/synapse-config/*/*.xml')
-                updateProperty("${it.key}", "${it.value}" ,'*/dataservice/*.dbs')
+                // updateProperty("${it.key}", "${it.value}" ,'*/dataservice/*.dbs')
             }
               }
                
