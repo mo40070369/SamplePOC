@@ -105,7 +105,7 @@ try{
              }
             bat 'dir'
             
-              dir ("WMSLite_OPS_Shipment_BR"){
+              dir ("Sample"){
                 bat 'dir'
                 // bat 'ls -ltr'
                 props.environments.main.each {
@@ -137,17 +137,17 @@ try{
             ) 
 		}else{
 
-        // stage("Cope car"){
-        //     echo "print base mi proj"
-        //     echo "${base_ei_project_tem_path}"
-        //     // bat "copy ${ei_service_project_tem_path}/*_capp/target/*.car ${ei_deploy}"
-        // }
-        stage("Deploy car in server"){
-            echo "deploy car in server"
-            deploy_result = bat (returnStdout: true, script: "cd ${ei_service_project_tem_path}/Sample && mvn  deploy -Dmaven.deploy.skip=true -Dmaven.car.deploy.skip=false -Dmaven.test.skip=true -Dmaven.wagon.http.ssl.insecure=true || echo success")
-             is_car_deploy_error = deploy_result.contains("[ERROR]")
-
+        stage("Cope car"){
+            echo "print base mi proj"
+            echo "${ei_service_project_tem_path}"
+            bat "copy ${ei_service_project_tem_path}/*_capp/target/*.car D:/softwares/WSO2/wso2ei-7.1.0/micro-integrator/repository/deployment/server/carbonapps"
         }
+        // stage("Deploy car in server"){
+        //     echo "deploy car in server"
+        //     deploy_result = bat (returnStdout: true, script: "cd ${ei_service_project_tem_path}/Sample && mvn  deploy -Dmaven.deploy.skip=true -Dmaven.car.deploy.skip=false -Dmaven.test.skip=true -Dmaven.wagon.http.ssl.insecure=true || echo success")
+        //      is_car_deploy_error = deploy_result.contains("[ERROR]")
+
+        // }
         if(is_car_deploy_error){
         currentBuild.result = 'FAILURE'
         currentBuild.setDescription("${build_email_title_suffix} EI Car Deploy Error")
