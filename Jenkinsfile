@@ -151,16 +151,16 @@ try{
         //      is_car_deploy_error = deploy_result.contains("[ERROR]")
 
         // }
-        if(is_car_deploy_error){
-        currentBuild.result = 'FAILURE'
-        currentBuild.setDescription("${build_email_title_suffix} EI Car Deploy Error")
-		    emailext (
-            subject: "${build_email_title_suffix} EI Car Deploy Error", 
-            mimetype: 'text/html', 
-            to: notify_users,
-            body: deploy_result
-            ) 
-		}
+        // if(is_car_deploy_error){
+        // currentBuild.result = 'FAILURE'
+        // currentBuild.setDescription("${build_email_title_suffix} EI Car Deploy Error")
+		//     emailext (
+        //     subject: "${build_email_title_suffix} EI Car Deploy Error", 
+        //     mimetype: 'text/html', 
+        //     to: notify_users,
+        //     body: deploy_result
+        //     ) 
+		// }
         
         // stage("Record Commit ID"){
         //       def template_path= "${base_ei_project_tem_path}/repository/deployment/server/synapse-configs/default/templates/"
@@ -191,7 +191,7 @@ try{
        		}         
     // }
     
-   if(!is_car_build_error && !is_car_deploy_error){
+   if(!is_car_build_error){
     // stage("commit & push code to Base_EI_Project"){
     //     dir(base_ei_project_tem_path){
     //          withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'devops_svc',usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]){
