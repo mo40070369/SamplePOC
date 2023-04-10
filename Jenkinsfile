@@ -140,8 +140,9 @@ try{
         stage("Cope car"){
             echo "print base mi proj"
             echo "${ei_service_project_tem_path}"
-         deploy_result =  powershell "copy ${ei_service_project_tem_path}/Sample/SampleCompositeExporter/target/*.car D:/softwares/WSO2/wso2ei-7.1.0/micro-integrator/repository/deployment/server/carbonapps"
-        is_car_deploy_error = deploy_result.contains("[ERROR]")
+        //  deploy_result =  
+         powershell "copy ${ei_service_project_tem_path}/Sample/SampleCompositeExporter/target/*.car D:/softwares/WSO2/wso2ei-7.1.0/micro-integrator/repository/deployment/server/carbonapps"
+        // is_car_deploy_error = deploy_result.contains("[ERROR]")
 
         }
         // stage("Deploy car in server"){

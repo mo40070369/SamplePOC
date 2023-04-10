@@ -94,10 +94,10 @@
         <configuration>
           <carbonServers>
             <CarbonServer>
-              <trustStorePath>${basedir}/src/main/resources/security/wso2carbon.jks</trustStorePath>
+              <trustStorePath>D:/softwares/WSO2/wso2ei-7.1.0/micro-integrator/repository/resources/security/wso2carbon.jks</trustStorePath>
               <trustStorePassword>wso2carbon</trustStorePassword>
               <trustStoreType>JKS</trustStoreType>
-              <serverUrl>https://localhost:9443</serverUrl>
+              <serverUrl>https://localhost:8253</serverUrl>
               <userName>admin</userName>
               <password>admin</password>
               <operation>deploy</operation>
