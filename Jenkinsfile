@@ -318,7 +318,6 @@ def updateProperty(property, value, file) {
         echo "file name: $file + escapedProperty: $escapedProperty  value: $value"      
       def updateStatus = powershell (returnStdout: true, script: "Set-Alias -Name sed -Value C:/'Program Files'/Git/usr/bin/sed.exe; sed -i 's|$escapedProperty|$value|g' $file | echo success")
 
-
 // def stdout1 = powershell(returnStdout: true, script: """
 // get-content $file """ + ' | %{$_ -replace '+ """ $escapedProperty,"http://100.67.10.91:9763/services/Moto_eCommerce_Delivered_Orders_DataService" }
 // """
