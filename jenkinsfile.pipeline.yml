@@ -1,5 +1,5 @@
 base_ei_project: https://github.com/mo40070369/SamplePOC.git
-notify_users: javedmd086@gmail.com
+notify_users: javed.md@massiltech.com
 environments:
     dev:
       sampel: sample

@@ -44,8 +44,8 @@ try {
             }
             // gitURL = sh(returnStdout: true, script: 'git remote -v|grep -v push|grep -oE http.*git|cat')
             gitURL = bat(returnStdout: true, script: 'git remote -v| find "http*.git" /v| find "push"')
-         // gitProjectName  = sh(returnStdout: true, script: "git remote -v|grep -v push|grep -oE http.*git|cat|sed 's%^.*lenovo.com/%%g'|sed 's/.git\$//g'")
-            gitProjectName  = powershell (returnStdout: true, script: "Set-Alias -Name sed -Value C:/'Program Files'/Git/usr/bin/sed.exe;git remote -v|findstr /R 'push'|findstr 'http.*git'|sed 's%^.*lenovo.com/%%g'|sed 's/.git\$//g'")
+         // gitProjectName  = sh(returnStdout: true, script: "git remote -v|grep -v push|grep -oE http.*git|cat|sed 's%^.*.com/%%g'|sed 's/.git\$//g'")
+            gitProjectName  = powershell (returnStdout: true, script: "Set-Alias -Name sed -Value C:/'Program Files'/Git/usr/bin/sed.exe;git remote -v|findstr /R 'push'|findstr 'http.*git'|sed 's%^.*.com/%%g'|sed 's/.git\$//g'")
             //  gitProjectName  = bat(returnStdout: true, script: 'git remote -v|  findstr /R "push"')
             build_email_title_suffix = "[(${env.BRANCH_NAME})${gitProjectName}] "
             echo "build_email_title_suffix is $build_email_title_suffix"
@@ -195,7 +195,7 @@ try{
     // stage("commit & push code to Base_EI_Project"){
     //     dir(base_ei_project_tem_path){
     //          withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'devops_svc',usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]){
-    //             powershell 'git config --global user.email "wso2devops@lenovo.com"'
+    //             powershell 'git config --global user.email "wso2devops@.com"'
     //             powershell 'git config --global user.name "wso2devops"'
     //             powershell 'git add --all'
     //             powershell "git commit -m '${newCommitComments}  \n Build Detail: ${env.BUILD_URL}console'"
@@ -239,7 +239,7 @@ try{
     //         subject: "${build_email_title_suffix} EI Car Deploy Failedd", 
     //         mimetype: 'text/html', 
     //         to: notify_users,
-    //         body: "${build_email_title_suffix} deploy failed , is car <a href='${splunkurl} Ignoring Carbon Application'> deployment error </a>?   \n\nError: ${err} \n\n ${ei_service_related_info_html}  \n\n if can not find the RC , please contact with Integration BASIS .\n\nEmail: -Integration_BASIS@lenovo.com \n\n Detail: ${env.BUILD_URL}console ",
+    //         body: "${build_email_title_suffix} deploy failed , is car <a href='${splunkurl} Ignoring Carbon Application'> deployment error </a>?   \n\nError: ${err} \n\n ${ei_service_related_info_html}  \n\n if can not find the RC , please contact with Integration BASIS .\n\nEmail: - \n\n Detail: ${env.BUILD_URL}console ",
     //          ) 
         
     // }
@@ -255,15 +255,15 @@ try{
     echo "newCommitComments ${newCommitComments}"
     echo "BUILD_URL ${env.BUILD_URL}"
 
-    echo "${build_email_title_suffix} EI Car Deploy to Base EI Project Successfully \n\nAll Environment Base EI Project Logs: <a href='${parseSplunkUrl(Base_EI_Project)}'>splunk</a> \n\nCheck If zzzzzzz_MI_Health_Check Car Deployed : <a href='${parseSplunkUrl(Base_EI_Project)} zzzzzzz_MI_Health_Check '>splunk</a> \n\nBase EI Project: http://${Base_EI_Project} \n \n\nYour Commit Info: \n<text>${newCommitComments}</text>\n\nBuild Detail: ${env.BUILD_URL}console \n \n In this Base EI Project version , We can not check whether the EI Service was deployed to Earth , and whether  there is other EI Service deployed failed make your EI Service unable to be deployed.\n\nif you need response your EI Service deployment status when you deploy ,  you can contact with Integration Basis to upgrade the Base EI Project to release/v1.1 .  \n Integration Basis: -Integration_BASIS@lenovo.com "
+    // echo "${build_email_title_suffix} EI Car Deploy to Base EI Project Successfully \n\nAll Environment Base EI Project Logs: <a href='${parseSplunkUrl(Base_EI_Project)}'>splunk</a> \n\nCheck If zzzzzzz_MI_Health_Check Car Deployed : <a href='${parseSplunkUrl(Base_EI_Project)} zzzzzzz_MI_Health_Check '>splunk</a> \n\nBase EI Project: http://${Base_EI_Project} \n \n\nYour Commit Info: \n<text>${newCommitComments}</text>\n\nBuild Detail: ${env.BUILD_URL}console \n \n In this Base EI Project version , We can not check whether the EI Service was deployed to Earth , and whether  there is other EI Service deployed failed make your EI Service unable to be deployed.\n\nif you need response your EI Service deployment status when you deploy ,  you can contact with Integration Basis to upgrade the Base EI Project to release/v1.1 .  \n Integration Basis: - "
 
     
        emailext (
                 subject: "${build_email_title_suffix} EI Car Deploy to Base EI Project Successfully ", 
                 mimetype: 'text/html', 
                 to: 'javedmd086@gmail.com',
-                body: "${build_email_title_suffix} EI Car Deploy to Base EI Project Successfully \n\n All Environment Base EI Project Logs: <a href='${parseSplunkUrl(Base_EI_Project)}'>splunk</a> \n\nCheck If zzzzzzz_MI_Health_Check Car Deployed : <a href='${parseSplunkUrl(Base_EI_Project)} zzzzzzz_MI_Health_Check '>splunk</a> \n\nBase EI Project: http://${Base_EI_Project} \n \n\nYour Commit Info: \n<text>${newCommitComments}</text>\n\nBuild Detail: ${env.BUILD_URL}console \n \n In this Base EI Project version , We can not check whether the EI Service was deployed to Earth , and whether  there is other EI Service deployed failed make your EI Service unable to be deployed.\n\nif you need response your EI Service deployment status when you deploy ,  you can contact with Integration Basis to upgrade the Base EI Project to release/v1.1 .  \n Integration Basis: -Integration_BASIS@lenovo.com "
-                // body: 'CAR has deployed successfully'
+                // body: "${build_email_title_suffix} EI Car Deploy to Base EI Project Successfully \n\n All Environment Base EI Project Logs: <a href='${parseSplunkUrl(Base_EI_Project)}'>splunk</a> \n\nCheck If zzzzzzz_MI_Health_Check Car Deployed : <a href='${parseSplunkUrl(Base_EI_Project)} zzzzzzz_MI_Health_Check '>splunk</a> \n\nBase EI Project: http://${Base_EI_Project} \n \n\nYour Commit Info: \n<text>${newCommitComments}</text>\n\nBuild Detail: ${env.BUILD_URL}console \n \n In this Base EI Project version , We can not check whether the EI Service was deployed to Earth , and whether  there is other EI Service deployed failed make your EI Service unable to be deployed.\n\nif you need response your EI Service deployment status when you deploy ,  you can contact with Integration Basis to upgrade the Base EI Project to release/v1.1 .  \n Integration Basis: - "
+                body: 'CAR has deployed successfully'
              ) 
     
 //  }
@@ -280,7 +280,7 @@ try{
             emailext to: "${to_users}",
             recipientProviders: [[$class: 'RequesterRecipientProvider'],[$class: 'DevelopersRecipientProvider']],
             subject: "${build_email_title_suffix} EI Car Deploy Failed",
-            body: "${build_email_title_suffix} deploy failed \n\nError: ${err} \n\n${ei_service_related_info_html} \n\n if can not find the RC , please contact with Integration BASIS .\n\nEmail: -Integration_BASIS@lenovo.com ",
+            body: "${build_email_title_suffix} deploy failed \n\nError: ${err} \n\n${ei_service_related_info_html} \n\n if can not find the RC , please contact with Integration BASIS .\n\nEmail: - ",
             mimeType: 'text/html'
         }
     }
@@ -301,7 +301,7 @@ def concatNotifyUsers(userList1,userList2){
            return userList2;
         }
 
-        return '-Integration_BASIS@lenovo.com';
+        return '-';
 }
 def updateProperty(property, value, file) { 
      echo 'Inside updateProperty method..'
