@@ -192,7 +192,7 @@ try{
     // }
     stage ('notify') {
        emailext (
-                subject: "EI Car Deploy to Base EI Project Successfully ", 
+                subject: 'EI Car Deploy to Base EI Project Successfully', 
                 mimetype: 'text/html', 
                 to: 'javed.md@massiltech.com',
                 body: 'CAR has deployed successfully'
@@ -246,7 +246,7 @@ try{
     //         subject: "${build_email_title_suffix} EI Car Deploy Failedd", 
     //         mimetype: 'text/html', 
     //         to: notify_users,
-    //         body: "${build_email_title_suffix} deploy failed , is car <a href='${splunkurl} Ignoring Carbon Application'> deployment error </a>?   \n\nError: ${err} \n\n ${ei_service_related_info_html}  \n\n if can not find the RC , please contact with Integration BASIS .\n\nEmail: -Integration_BASIS@lenovo.com \n\n Detail: ${env.BUILD_URL}console ",
+    //         body: "${build_email_title_suffix} deploy failed , is car <a href='${splunkurl} Ignoring Carbon Application'> deployment error </a>?   \n\nError: ${err} \n\n ${ei_service_related_info_html}  \n\n if can not find the RC , please contact with Integration BASIS .\n\nEmail: - \n\n Detail: ${env.BUILD_URL}console ",
     //          ) 
         
     // }
@@ -261,7 +261,7 @@ try{
     echo "Base_EI_Project ${Base_EI_Project}"
     echo "newCommitComments ${newCommitComments}"
     echo "BUILD_URL ${env.BUILD_URL}"
-    // echo "${build_email_title_suffix} EI Car Deploy to Base EI Project Successfully \n\nAll Environment Base EI Project Logs: <a href='${parseSplunkUrl(Base_EI_Project)}'>splunk</a> \n\nCheck If zzzzzzz_MI_Health_Check Car Deployed : <a href='${parseSplunkUrl(Base_EI_Project)} zzzzzzz_MI_Health_Check '>splunk</a> \n\nBase EI Project: http://${Base_EI_Project} \n \n\nYour Commit Info: \n<text>${newCommitComments}</text>\n\nBuild Detail: ${env.BUILD_URL}console \n \n In this Base EI Project version , We can not check whether the EI Service was deployed to Earth , and whether  there is other EI Service deployed failed make your EI Service unable to be deployed.\n\nif you need response your EI Service deployment status when you deploy ,  you can contact with Integration Basis to upgrade the Base EI Project to release/v1.1 .  \n Integration Basis: -Integration_BASIS@lenovo.com "
+    // echo "${build_email_title_suffix} EI Car Deploy to Base EI Project Successfully \n\nAll Environment Base EI Project Logs: <a href='${parseSplunkUrl(Base_EI_Project)}'>splunk</a> \n\nCheck If zzzzzzz_MI_Health_Check Car Deployed : <a href='${parseSplunkUrl(Base_EI_Project)} zzzzzzz_MI_Health_Check '>splunk</a> \n\nBase EI Project: http://${Base_EI_Project} \n \n\nYour Commit Info: \n<text>${newCommitComments}</text>\n\nBuild Detail: ${env.BUILD_URL}console \n \n In this Base EI Project version , We can not check whether the EI Service was deployed to Earth , and whether  there is other EI Service deployed failed make your EI Service unable to be deployed.\n\nif you need response your EI Service deployment status when you deploy ,  you can contact with Integration Basis to upgrade the Base EI Project to release/v1.1 .  \n Integration Basis: - "
 
     // stage ('notify') {
     //    emailext (
@@ -269,7 +269,7 @@ try{
     //             subject: "EI Car Deploy to Base EI Project Successfully ", 
     //             mimetype: 'text/html', 
     //             to: 'javed.md@massiltech.com',
-    //             // body: "${build_email_title_suffix} EI Car Deploy to Base EI Project Successfully \n\n All Environment Base EI Project Logs: <a href='${parseSplunkUrl(Base_EI_Project)}'>splunk</a> \n\nCheck If zzzzzzz_MI_Health_Check Car Deployed : <a href='${parseSplunkUrl(Base_EI_Project)} zzzzzzz_MI_Health_Check '>splunk</a> \n\nBase EI Project: http://${Base_EI_Project} \n \n\nYour Commit Info: \n<text>${newCommitComments}</text>\n\nBuild Detail: ${env.BUILD_URL}console \n \n In this Base EI Project version , We can not check whether the EI Service was deployed to Earth , and whether  there is other EI Service deployed failed make your EI Service unable to be deployed.\n\nif you need response your EI Service deployment status when you deploy ,  you can contact with Integration Basis to upgrade the Base EI Project to release/v1.1 .  \n Integration Basis: -Integration_BASIS@lenovo.com "
+    //             // body: "${build_email_title_suffix} EI Car Deploy to Base EI Project Successfully \n\n All Environment Base EI Project Logs: <a href='${parseSplunkUrl(Base_EI_Project)}'>splunk</a> \n\nCheck If zzzzzzz_MI_Health_Check Car Deployed : <a href='${parseSplunkUrl(Base_EI_Project)} zzzzzzz_MI_Health_Check '>splunk</a> \n\nBase EI Project: http://${Base_EI_Project} \n \n\nYour Commit Info: \n<text>${newCommitComments}</text>\n\nBuild Detail: ${env.BUILD_URL}console \n \n In this Base EI Project version , We can not check whether the EI Service was deployed to Earth , and whether  there is other EI Service deployed failed make your EI Service unable to be deployed.\n\nif you need response your EI Service deployment status when you deploy ,  you can contact with Integration Basis to upgrade the Base EI Project to release/v1.1 .  \n Integration Basis: - "
     //             body: 'CAR has deployed successfully'
     //          ) 
     // }
@@ -287,7 +287,7 @@ try{
         //     emailext to: "${to_users}",
         //     recipientProviders: [[$class: 'RequesterRecipientProvider'],[$class: 'DevelopersRecipientProvider']],
         //     subject: "${build_email_title_suffix} EI Car Deploy Failed",
-        //     body: "${build_email_title_suffix} deploy failed \n\nError: ${err} \n\n${ei_service_related_info_html} \n\n if can not find the RC , please contact with Integration BASIS .\n\nEmail: -Integration_BASIS@lenovo.com ",
+        //     body: "${build_email_title_suffix} deploy failed \n\nError: ${err} \n\n${ei_service_related_info_html} \n\n if can not find the RC , please contact with Integration BASIS .\n\nEmail: - ",
         //     mimeType: 'text/html'
         // }
     }
@@ -308,7 +308,7 @@ def concatNotifyUsers(userList1,userList2){
            return userList2;
         }
 
-        return '-Integration_BASIS@lenovo.com';
+        return '-';
 }
 def updateProperty(property, value, file) { 
      echo 'Inside updateProperty method..'
