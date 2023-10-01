@@ -31,7 +31,11 @@ pipeline {
                     try {
 
                         echo "Current Job Name: ${jobName}"
-    
+    build job: 'TestJenkins/HelloWorld/main', 
+    parameters: [
+        string(name: 'passed_build_number_param', value: '41'),
+        string(name: 'complex_param', value: '41')
+    ]
 
 //                         def response1 = httpRequest(
 
