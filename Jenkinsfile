@@ -291,7 +291,7 @@ pipeline {
 
                             echo "${jobName}"
 echo "**********ENTER*****"
-                           def job = Jenkins.instance.getItem("workFlow")
+                           def job = Jenkins.instance.getItem("${jobName}")
 job.nextBuildNumber = 41
 job.saveNextBuildNumber()
 echo "**********ENTER*****"
