@@ -32,10 +32,14 @@ pipeline {
 
                         echo "Current Job Name: ${jobName}"
 
-                        def lastSuccessBuildName = Jenkins.instance.getItem(env.JOB_NAME).lastSuccessfulBuild.displayName
+                        def response1 = httpRequest(
 
-                            echo "Last Success Build Name: ${lastSuccessBuildName}"
+                            url: 'http://localhost:8080/job/sample/lastSuccessfulBuild/buildNumber',
 
+                            httpMode: 'GET'
+                        )
+ def responseBody1 = response1.getContent()
+ echo "last success build: ${responseBody1}"
                         // Step 1: Call the First Endpoint for Access Token
 
                         def response = httpRequest(
