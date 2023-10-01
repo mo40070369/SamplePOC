@@ -31,6 +31,7 @@ pipeline {
                     try {
 
                         echo "Current Job Name: ${jobName}"
+    
 
                         def response1 = httpRequest(
 
@@ -38,8 +39,10 @@ pipeline {
 
                             httpMode: 'GET'
                         )
- def responseBody1 = response1.getContent()
- echo "last success build: ${responseBody1}"
+//  def responseBody1 = response1.getContent()
+//  echo "last success build: ${responseBody1}"
+     println("Status: "+response1.status)
+        println("Content: "+response1.content)
                         // Step 1: Call the First Endpoint for Access Token
 
                         def response = httpRequest(
