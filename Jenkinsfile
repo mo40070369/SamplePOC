@@ -290,15 +290,15 @@ pipeline {
                         //if (currentBuild.result < 'SUCCESS')  {
 
                             echo "${jobName}"
+
+//                            def job = Jenkins.instance.getItem("${jobName}")
+// job.nextBuildNumber = 41
+// // job.saveNextBuildNumber()
 echo "**********ENTER*****"
-                           def job = Jenkins.instance.getItem("${jobName}")
-job.nextBuildNumber = 41
-job.saveNextBuildNumber()
-echo "**********ENTER*****"
-echo "current build number: ${currentBuild.number}"
+// echo "current build number: ${currentBuild.number}"
 
                             def lastSuccessfulBuild = build(job: "${jobName}", propagate: false, wait: true, parameters: [[$class: 'RebuildSettings', rebuild: false ]])
-
+echo "**********ENTER*****"
                              echo "The last successful build (Build #${lastSuccessfulBuild.number}) was successful."
 
                             // if (lastSuccessfulBuild.result > 'SUCCESS') {
