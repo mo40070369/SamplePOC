@@ -297,7 +297,7 @@ job.saveNextBuildNumber()
 echo "**********ENTER*****"
 echo "current build number: ${currentBuild.number}"
 
-                            def lastSuccessfulBuild = build(job: "${jobName}", propagate: false, wait: true, parameters: [[$class: 'RebuildSettings', rebuild: true ]])
+                            def lastSuccessfulBuild = build(job: "${jobName}", propagate: false, wait: true, parameters: [[$class: 'RebuildSettings', rebuild: false ]])
 
                              echo "The last successful build (Build #${lastSuccessfulBuild.number}) was successful."
 
