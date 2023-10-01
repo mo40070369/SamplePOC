@@ -33,16 +33,16 @@ pipeline {
                         echo "Current Job Name: ${jobName}"
     
 
-                        def response1 = httpRequest(
+//                         def response1 = httpRequest(
 
-                            url: 'http://localhost:8080/job/TestJenkins/job/HelloWorld/job/main/lastSuccessfulBuild/buildNumber',
+//                             url: 'http://localhost:8080/job/TestJenkins/job/HelloWorld/job/main/lastSuccessfulBuild/buildNumber',
 
-                            httpMode: 'GET'
-                        )
-//  def responseBody1 = response1.getContent()
-//  echo "last success build: ${responseBody1}"
-     println("Status: "+response1.status)
-        println("Content: "+response1.content)
+//                             httpMode: 'GET'
+//                         )
+// //  def responseBody1 = response1.getContent()
+// //  echo "last success build: ${responseBody1}"
+//      println("Status: "+response1.status)
+//         println("Content: "+response1.content)
                         // Step 1: Call the First Endpoint for Access Token
 
                         def response = httpRequest(
@@ -283,17 +283,21 @@ pipeline {
 
                         echo "The current build was not successful."
 
- 
+
 
                         def lastBuild = build(job: "${jobName}", propagate: false, wait: false)
 
                         //if (currentBuild.result < 'SUCCESS')  {
 
                             echo "${jobName}"
+echo "**********ENTER*****"
+                           def job = Jenkins.instance.getItem("workFlow")
+job.nextBuildNumber = 41
+job.saveNextBuildNumber()
+echo "**********ENTER*****"
+echo "current build number: ${currentBuild.number}"
 
-                           
-
-                            def lastSuccessfulBuild = build(job: "${jobName}", propagate: false, wait: true, parameters: [[$class: 'RebuildSettings', rebuild: true]])
+                            def lastSuccessfulBuild = build(job: "${jobName}", propagate: false, wait: true, parameters: [[$class: 'RebuildSettings', rebuild: true ]])
 
                              echo "The last successful build (Build #${lastSuccessfulBuild.number}) was successful."
 
