@@ -34,7 +34,7 @@ pipeline {
 
                         def response1 = httpRequest(
 
-                            url: 'http://localhost:8080/job/sample/lastSuccessfulBuild/buildNumber',
+                            url: 'http://admin:59ed1d24c74c40959d3d3af577cd953c@localhost:8080/job/sample/lastSuccessfulBuild/buildNumber',
 
                             httpMode: 'GET'
                         )
